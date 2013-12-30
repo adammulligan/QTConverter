@@ -40,12 +40,12 @@ def non_quicktime_files_only files
   end
 end
 
-def video_files_in directory
+def non_quicktime_video_files_in directory
   non_quicktime_files_only Dir.entries(directory)
 end
 
 Dir.chdir directory do
-  video_files_in(directory).each do |video_file|
+  non_quicktime_video_files_in(directory).each do |video_file|
     progressbar = ProgressBar.create(:format => '%a <%B> %p%% %t')
 
     movie = FFMPEG::Movie.new(video_file)
