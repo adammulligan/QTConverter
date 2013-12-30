@@ -48,8 +48,10 @@ Dir.chdir directory do
   non_quicktime_video_files_in(directory).each do |video_file|
     progressbar = ProgressBar.create(:format => '%a <%B> %p%% %t')
 
+    video_file_without_extension = File.basename(video_file, File.extname(video_file))
+
     movie = FFMPEG::Movie.new(video_file)
-    movie.transcode("#{video_file}.mp4") do |progress|
+    movie.transcode("#{video_file_without_extension}.mp4") do |progress|
       progressbar.progress = progress * 100
     end
   end
