@@ -52,7 +52,8 @@ Dir.chdir directory do
 
     begin
       movie = FFMPEG::Movie.new(video_file)
-      movie.transcode("#{video_file_without_extension}.mp4") do |progress|
+      ffmpeg_options = "-acodec libfaac -b:a 128k -vcodec mpeg4 -b:v 1200k -flags +aic+mv4"
+      movie.transcode("#{video_file_without_extension}.mp4", ffmpeg_options) do |progress|
         progress = progress * 100
         progress = 100 if progress > 100
 
