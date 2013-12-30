@@ -11,6 +11,15 @@ bundle install
 
 ## Running
 
+There is a locale issue with filemagic and you must first run:
+
 ```
-ruby main.rb <path to dir>
+export LC_CTYPE=C
+export LANG=C
+```
+
+Then you can run the converter:
+
+```
+./qtconvert <path to dir>
 ```
