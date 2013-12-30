@@ -50,9 +50,17 @@ Dir.chdir directory do
 
     video_file_without_extension = File.basename(video_file, File.extname(video_file))
 
-    movie = FFMPEG::Movie.new(video_file)
-    movie.transcode("#{video_file_without_extension}.mp4") do |progress|
-      progressbar.progress = progress * 100
+    begin
+      movie = FFMPEG::Movie.new(video_file)
+      movie.transcode("#{video_file_without_extension}.mp4") do |progress|
+        progress = progress * 100
+        progress = 100 if progress > 100
+
+        progressbar.progress = progress
+      end
+    rescue RuntimeError => e
+      puts e
+      next
     end
   end
 end
