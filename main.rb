@@ -1,6 +1,7 @@
 require 'filemagic'
 require 'streamio-ffmpeg'
 require 'ruby-progressbar'
+require 'fileutils'
 
 unless ARGV.length > 0
   puts "Supply a directory to scan for video files"
