@@ -51,14 +51,17 @@ Dir.chdir directory do
     video_file_without_extension = File.basename(video_file, File.extname(video_file))
 
     begin
-      movie = FFMPEG::Movie.new(video_file)
       ffmpeg_options = "-acodec libfaac -b:a 128k -vcodec mpeg4 -b:v 1200k -flags +aic+mv4"
+
+      movie = FFMPEG::Movie.new(video_file)
       movie.transcode("#{video_file_without_extension}.mp4", ffmpeg_options) do |progress|
         progress = progress * 100
         progress = 100 if progress > progressbar.total
 
         progressbar.progress = progress
       end
+
+      FileUtils.mv video_file, "_old/#{video_file}"
     rescue FFMPEG::Error
       FileUtils.mv video_file, "_wont/#{video_file}"
       next
