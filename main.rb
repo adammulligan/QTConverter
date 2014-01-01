@@ -55,12 +55,12 @@ Dir.chdir directory do
       ffmpeg_options = "-acodec libfaac -b:a 128k -vcodec mpeg4 -b:v 1200k -flags +aic+mv4"
       movie.transcode("#{video_file_without_extension}.mp4", ffmpeg_options) do |progress|
         progress = progress * 100
-        progress = 100 if progress > 100
+        progress = 100 if progress > progressbar.total
 
         progressbar.progress = progress
       end
-    rescue RuntimeError => e
-      puts e
+    rescue FFMPEG::Error
+      FileUtils.mv video_file, "_wont/#{video_file}"
       next
     end
   end
